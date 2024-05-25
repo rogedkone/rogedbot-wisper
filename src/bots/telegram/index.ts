@@ -41,32 +41,42 @@ const composer = new Composer();
 
 // @ts-ignore
 composer.on('media_group', async (ctx) => {
-  console.log(ctx);
-
   const group = [];
+  const toCopy = [];
   const messages: number[] = [];
 
   // @ts-ignore
-  for (const media of ctx.mediaGroup) {
+  for (const media of ctx.mediaGroup
+  ) {
     messages.push(media.message_id);
     switch (true) {
       // @ts-ignore
       case media.video !== undefined:
-        group.push({
-          type: 'video',
-          media: {
-            url: Input.fromURL(await Bot.telegram.getFileLink(media.video.file_id)),
-          },
-        });
+        if (media.video.file_size > 20971000) {
+          toCopy.push(media.message_id);
+        } else {
+          group.push({
+            type: 'video',
+            media: {
+              url: Input.fromURL(await Bot.telegram.getFileLink(media.video.file_id)),
+            },
+          });
+        }
+
         break;
       // @ts-ignore
       case media.photo !== undefined:
-        group.push({
-          type: 'photo',
-          media: {
-            url: Input.fromURL(await Bot.telegram.getFileLink(media.photo.pop().file_id)),
-          },
-        });
+        if (media.photo.pop().file_size > 5242000) {
+          toCopy.push(media.message_id);
+        } else {
+          group.push({
+            type: 'photo',
+            media: {
+              url: Input.fromURL(await Bot.telegram.getFileLink(media.photo.pop().file_id)),
+            },
+          });
+        }
+
         break;
       default:
         break;
@@ -81,10 +91,17 @@ composer.on('media_group', async (ctx) => {
       ctx.deleteMessages(messages);
     });
   }
+
+  if (toCopy.length !== 0 && 'message' in ctx.update) {
+    Bot.telegram.copyMessages(constants.TG_CHANNEL_ID, ctx.update.message.from.id, toCopy).then(async () => {
+      const response = await ctx.reply('Какие толстенькие видосики у нас в группе, ух, отправил их отдельно');
+      pushToDelete(response.chat.id, response.message_id);
+      ctx.deleteMessages(messages);
+    });
+  }
 });
 
 composer.on(message('photo'), async (ctx) => {
-  console.log('CTX:', ctx);
   Bot.telegram.copyMessage(constants.TG_CHANNEL_ID, ctx.update.message.chat.id, ctx.update.message.message_id).then(async () => {
     ctx.deleteMessage();
     const response = await ctx.reply(constants.replies.getRandomPhotoText());
