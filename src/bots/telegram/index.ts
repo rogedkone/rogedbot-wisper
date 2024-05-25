@@ -44,6 +44,7 @@ composer.on('media_group', async (ctx) => {
   const group = [];
   const toCopy = [];
   const messages: number[] = [];
+  console.log(ctx);
 
   // @ts-ignore
   for (const media of ctx.mediaGroup
@@ -66,13 +67,13 @@ composer.on('media_group', async (ctx) => {
         break;
       // @ts-ignore
       case media.photo !== undefined:
-        if (media.photo.pop().file_size > 5242000) {
+        if (media.photo[media.photo.length - 1].file_size > 5242000) {
           toCopy.push(media.message_id);
         } else {
           group.push({
             type: 'photo',
             media: {
-              url: Input.fromURL(await Bot.telegram.getFileLink(media.photo.pop().file_id)),
+              url: Input.fromURL(await Bot.telegram.getFileLink(media.photo[media.photo.length - 1].file_id)),
             },
           });
         }
