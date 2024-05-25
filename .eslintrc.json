@@ -1,0 +1,19 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["airbnb/base", "airbnb-typescript/base"],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": ["./tsconfig.json"],
+    "tsconfigRootDir": "./"
+  },
+  "ignorePatterns": ["build"],
+  "rules": {
+    "linebreak-style": 0,
+    "array-bracket-newline": "warn",
+    "no-console": "off"
+  }
+}

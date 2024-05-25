@@ -1,0 +1,39 @@
+{
+  "name": "roged-bot-template",
+  "version": "0.0.1",
+  "description": "roged-bot template",
+  "main": "main.ts",
+  "scripts": {
+    "start": "set NODE_ENV=dev&& nodemon  src/main.ts",
+    "build": "tsc && tsc-alias",
+    "lint": "npx eslint ./src --ext .js,.jsx,.ts,.tsx"
+  },
+  "author": "rogedkone",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/node21": "^21.0.3",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.5.0",
+    "@typescript-eslint/parser": "^7.5.0",
+    "acebase": "^1.29.5",
+    "axios": "^1.6.8",
+    "dayjs": "^1.11.10",
+    "discord.js": "^14.15.2",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "mqtt": "^5.5.5",
+    "telegraf": "^4.16.3",
+    "telegraf-media-group": "^1.2.1",
+    "tsc-alias": "^1.8.8"
+  }
+}
