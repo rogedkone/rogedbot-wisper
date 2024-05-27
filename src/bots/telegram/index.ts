@@ -44,6 +44,7 @@ composer.on('media_group', async (ctx) => {
   const group = [];
   const toCopy = [];
   const messages: number[] = [];
+
   console.log(ctx);
 
   // @ts-ignore
@@ -58,6 +59,7 @@ composer.on('media_group', async (ctx) => {
         } else {
           group.push({
             type: 'video',
+            caption: media.caption ?? '',
             media: {
               url: Input.fromURL(await Bot.telegram.getFileLink(media.video.file_id)),
             },
@@ -72,6 +74,7 @@ composer.on('media_group', async (ctx) => {
         } else {
           group.push({
             type: 'photo',
+            caption: media.caption ?? '',
             media: {
               url: Input.fromURL(await Bot.telegram.getFileLink(media.photo[media.photo.length - 1].file_id)),
             },
